@@ -17,5 +17,6 @@ This scripts does several tasks :
 * Secure SSH access (disabling root login, disabling password login etc..)
 * Configure ufw to allow SSH only
 * Configure fail2ban
+* ~~delete pi user~~ -> this does not work yet, need to be fixed.
 
 All the steps are followed from official raspberry pi documentation : https://www.raspberrypi.org/documentation/configuration/security.md
