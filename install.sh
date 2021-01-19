@@ -10,12 +10,6 @@ USERNAME=$(whoami)
 echo_info "Running other configurations as user ${user}"
 
 
-delete_pi_user() {
-    #First, we kill all processes of pi
-    sudo pkill -u pi 
-    sudo deluser pi
-}
-
 default_editor() {
     echo_info "Setting default editor as vim"
     echo "export EDITOR=vim" >> ~/.bashrc
@@ -88,12 +82,17 @@ fail2ban_config() {
     echo "maxretry = 6" >> /etc/fail2ban/jail.local
 }
 
+delete_pi_user() {
+    #First, we kill all processes of pi
+    sudo pkill -u pi 
+    sudo deluser pi
+}
+
 # Additional commands that must be manually ran after the script is executed
 print_additional_command() {
     echo_info "Some additional commands must be run in order finish the setup: "
     echo -e "\tsudo rm -rf /home/pi"
 }
-
 
 default_editor
 enable_sudo_pwd
@@ -106,8 +105,11 @@ secure_ssh_access
 firewall_rules
 fail2ban_config
 
+
 source ~/.bashrc 
 echo_ok "bashrc reloaded :)"
 
 echo_ok "RASPBERRY CONFIG DONE"
+
+delete_pi_user
 print_additional_command
