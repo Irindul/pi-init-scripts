@@ -78,9 +78,14 @@ firewall_rules() {
     echo_done "Firewall up and running"
 }
 
-fail2ban_config {
+fail2ban_config() {
     sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
-    sudo nano /etc/fail2ban/jail.local
+    echo "[ssh]" >> /etc/fail2ban/jail.local
+    echo "enabled  = true" >> /etc/fail2ban/jail.local
+    echo "port     = ssh" >> /etc/fail2ban/jail.local
+    echo "filter   = sshd" >> /etc/fail2ban/jail.local
+    echo "logpath  = /var/log/auth.log" >> /etc/fail2ban/jail.local
+    echo "maxretry = 6" >> /etc/fail2ban/jail.local
 }
 
 # Additional commands that must be manually ran after the script is executed
@@ -96,9 +101,10 @@ enable_sudo_pwd
 ### APT ###
 install_packages
 
-### SSH ### 
+### Security ### 
 secure_ssh_access
-
+firewall_rules
+fail2ban_config
 
 source ~/.bashrc 
 echo_ok "bashrc reloaded :)"
