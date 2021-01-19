@@ -27,9 +27,16 @@ install_packages() {
     
    
      #@todo Mathieu Regnard 2021-01-19 : Add docker as an optional args (./init --docker or something like that), I may not want docker every time
-    sudo apt install -y vim docker ufw fail2ban
+    sudo apt install -y vim ufw fail2ban
 
     echo_ok "System update and packages installation done"
+}
+
+
+install_docker() {
+    curl https://get.docker.com -o get-docker.sh 
+    chmod +x get-docker.sh 
+    ./get-docker.sh
 }
 
 secure_ssh_access() {
@@ -99,6 +106,7 @@ enable_sudo_pwd
 
 ### APT ###
 install_packages
+install_docker
 
 ### Security ### 
 secure_ssh_access
