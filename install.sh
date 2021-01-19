@@ -85,7 +85,7 @@ fail2ban_config() {
 delete_pi_user() {
     #First, we kill all processes of pi
     sudo pkill -u pi 
-    sudo deluser pi
+    sudo deluser --remove-home pi
 }
 
 # Additional commands that must be manually ran after the script is executed
@@ -109,7 +109,10 @@ fail2ban_config
 source ~/.bashrc 
 echo_ok "bashrc reloaded :)"
 
+
+echo_info "Deleting pi user"
+delete_pi_user
+echo_info "pi user deleted :)"
 echo_ok "RASPBERRY CONFIG DONE"
 
-delete_pi_user
 print_additional_command
