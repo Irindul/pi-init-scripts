@@ -2,13 +2,13 @@
 
 ### VARIABLES ### 
 COMMON_FILE="./common.sh"
+NVM_INSTALLER_VERSION="0.38.0"
 ### 
 
 source "${COMMON_FILE}"
 
 USERNAME=$(whoami)
 echo_info "Running other configurations as user ${user}"
-
 
 default_editor() {
     echo_info "Setting default editor as vim"
@@ -34,10 +34,17 @@ install_packages() {
 
 
 install_docker() {
-    curl https://get.docker.com -o get-docker.sh 
-    chmod +x get-docker.sh 
-    ./get-docker.sh
-    sudo usermod -aG docker $USER
+    curl -fsSL https://get.docker.com/rootless | sh
+}
+
+install_nvm_and_node() {
+    curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/v${NVM_INSTALLER_VERSION}/install.sh" | bash
+    source ~/.bashrc
+    local nvm_version=$(nvm --version)
+    echo_ok "Nvm installed with version ${nvm_version}"
+    nvm install --lts
+    local node_version=$(node --version)
+    echo_ok "Node installed with version ${node_version}"
 }
 
 secure_ssh_access() {
@@ -90,16 +97,11 @@ fail2ban_config() {
     echo "maxretry = 6" >> /etc/fail2ban/jail.local
 }
 
-delete_pi_user() {
-    #First, we kill all processes of pi
-    sudo pkill -u pi 
-    sudo deluser --remove-home pi
-}
-
 # Additional commands that must be manually ran after the script is executed
 print_additional_command() {
     echo_info "Some additional commands must be run in order finish the setup: "
-    echo -e "\tsudo rm -rf /home/pi"
+    echo -e "\tsudo pkill -u pi"
+    echo -e "\tsudo deluser --remove-home pi"
 }
 
 default_editor
@@ -108,6 +110,7 @@ enable_sudo_pwd
 ### APT ###
 install_packages
 install_docker
+install_nvm_and_node
 
 ### Security ### 
 secure_ssh_access
@@ -117,11 +120,6 @@ fail2ban_config
 
 source ~/.bashrc 
 echo_ok "bashrc reloaded :)"
-
-
-echo_info "Deleting pi user"
-delete_pi_user
-echo_info "pi user deleted :)"
 echo_ok "RASPBERRY CONFIG DONE"
 
 print_additional_command

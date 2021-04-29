@@ -13,7 +13,9 @@ This scripts does several tasks :
 * Create a new user called `mat` 
 * Set vim as the default editor
 * Forces a password for sudo for the new user
-* Updates packages and installs some basic stuff (vim, docker, fail2ban, ufw etc...)
+* Updates packages and installs some basic stuff (vim, fail2ban, ufw etc...)
+* ~Configure docker~ -> not working
+* Install node
 * Secure SSH access (disabling root login, disabling password login etc..)
 * Configure ufw to allow SSH only
 * Configure fail2ban
