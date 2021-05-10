@@ -83,8 +83,10 @@ firewall_rules() {
     sudo ufw default deny incoming
     echo_info "Authorizing SSH Port"
     sudo ufw allow 22 
+    sed -i 's/ENABLED=no/ENABLED=yes/' /etc/ufw/ufw.conf
     echo "y" | sudo ufw enable
     echo_done "Firewall up and running"
+    sudo systemctl enable ufw
 }
 
 fail2ban_config() {
