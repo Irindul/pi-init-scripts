@@ -1,6 +1,6 @@
 # Init scripts for Raspberry Pi
 
-This scripts are used to create a basic secure environment when reinstalling RaspberryPi OS. 
+These scripts are used to create a basic secure environment when reinstalling RaspberryPi OS. 
 
 ## Usage 
 
@@ -9,7 +9,7 @@ This scripts are used to create a basic secure environment when reinstalling Ras
 
 ## Contents
 
-This scripts does several tasks : 
+These scripts do several tasks : 
 * Create a new user called `mat` 
 * Set vim as the default editor
 * Forces a password for sudo for the new user
