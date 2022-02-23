@@ -3,7 +3,6 @@ set -o errexit
 set -o nounset
 
 ### VARIABLES ### 
-USERNAME="mat"
 COMMON_FILE="./common.sh"
 INSTALL_SCRIPT="./install.sh"
 
