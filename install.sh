@@ -38,6 +38,9 @@ install_packages() {
 
 install_docker() {
     curl -fsSL https://get.docker.com/rootless | sh
+
+    # Run docker as non-root
+    sudo usermod -aG docker $USER
 }
 
 install_nvm_and_node() {
