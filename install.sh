@@ -8,7 +8,7 @@ NVM_INSTALLER_VERSION="0.38.0"
 source "${COMMON_FILE}"
 
 USERNAME=$(whoami)
-echo_info "Running other configurations as user ${user}"
+echo_info "Running other configurations as user ${USERNAME}"
 
 default_editor() {
     echo_info "Setting default editor as vim"
@@ -38,12 +38,16 @@ install_docker() {
 }
 
 install_nvm_and_node() {
+    local nvm_version
+    local node_version
+    
     curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/v${NVM_INSTALLER_VERSION}/install.sh" | bash
     source ~/.bashrc
-    local nvm_version=$(nvm --version)
+    
+    nvm_version=$(nvm --version)
     echo_ok "Nvm installed with version ${nvm_version}"
     nvm install --lts
-    local node_version=$(node --version)
+    node_version=$(node --version)
     echo_ok "Node installed with version ${node_version}"
 }
 
@@ -52,7 +56,7 @@ secure_ssh_access() {
 
     echo_prompt "Enter ssh public key to authorize ssh login: "
     SSH_PUBLIC_KEY=""
-    read SSH_PUBLIC_KEY
+    read -r SSH_PUBLIC_KEY
 
 
     mkdir -p ~/.ssh 
@@ -84,19 +88,21 @@ firewall_rules() {
     echo_info "Authorizing SSH Port"
     sudo ufw allow 22 
     sed -i 's/ENABLED=no/ENABLED=yes/' /etc/ufw/ufw.conf
-    echo "y" | sudo ufw enable
+    echo "y" | sudo ufw enable
     echo_done "Firewall up and running"
     sudo systemctl enable ufw
 }
 
 fail2ban_config() {
     sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
-    echo "[ssh]" >> /etc/fail2ban/jail.local
-    echo "enabled  = true" >> /etc/fail2ban/jail.local
-    echo "port     = ssh" >> /etc/fail2ban/jail.local
-    echo "filter   = sshd" >> /etc/fail2ban/jail.local
-    echo "logpath  = /var/log/auth.log" >> /etc/fail2ban/jail.local
-    echo "maxretry = 6" >> /etc/fail2ban/jail.local
+    cat >/etc/fail2ban/jail.local <<SSH
+[ssh]
+enabled = true
+port = ssh
+filter = sshd
+logpath = /var/log/auth.log
+maxretry = 6
+SSH
 }
 
 # Additional commands that must be manually ran after the script is executed

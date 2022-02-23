@@ -23,7 +23,7 @@ create_user() {
 }
 
 if [ -z "${USERNAME}" ]; then 
-  read -p "username for the newuser: " USERNAME
+  read -rp "username for the newuser: " USERNAME
 fi
 
 create_user "${USERNAME}"
