@@ -24,10 +24,13 @@ install_packages() {
     echo_info "Running updates"
     sudo apt update -y
     sudo apt upgrade -y
-    
-   
+
      #@todo Mathieu Regnard 2021-01-19 : Add docker as an optional args (./init --docker or something like that), I may not want docker every time
-    sudo apt install -y vim ufw fail2ban docker-compose
+    sudo apt install -y \
+    docker-compose \
+    fail2ban \
+    ufw \
+    vim
 
     echo_ok "System update and packages installation done"
 }
