@@ -95,8 +95,8 @@ firewall_rules() {
     sudo ufw allow 22 
     sed -i 's/ENABLED=no/ENABLED=yes/' /etc/ufw/ufw.conf
     echo "y" | sudo ufw enable
-    echo_done "Firewall up and running"
     sudo systemctl enable ufw
+    echo_done "Firewall up and running"
 }
 
 fail2ban_config() {
